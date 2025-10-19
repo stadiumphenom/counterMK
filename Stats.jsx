@@ -1,16 +1,7 @@
-function Stats({ stats }) {
-  return (
-    <div className="stats">
-      <div className="stat">
-        <label>🧠 Awareness</label>
-        <progress value={stats.awareness} max="100"></progress>
-      </div>
-      <div className="stat">
-        <label>🔓 Freedom</label>
-        <progress value={stats.freedom} max="100"></progress>
-      </div>
-    </div>
-  );
-}
+import React from 'react';
+
+const Stats = () => {
+  return <div>Stats component loaded!</div>;
+};
 
 export default Stats;
