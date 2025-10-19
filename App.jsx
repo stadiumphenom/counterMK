@@ -1,36 +1,37 @@
-import { useState } from "react";
-import { story } from "./story";
+import { useState } from 'react';
+import story from './story';
+import './index.css';
+import Stats from './Stats';
 
-export default function App() {
-  const [node, setNode] = useState("start");
+function App() {
+  const [currentNode, setCurrentNode] = useState('intro');
+  const [stats, setStats] = useState({ freedom: 50, awareness: 50 });
 
-  const current = story[node];
+  const makeChoice = (choice) => {
+    const { effect, next } = choice;
+    if (effect) {
+      setStats(prev => ({
+        freedom: Math.min(100, Math.max(0, prev.freedom + (effect.freedom || 0))),
+        awareness: Math.min(100, Math.max(0, prev.awareness + (effect.awareness || 0))),
+      }));
+    }
+    setCurrentNode(next);
+  };
 
-  const go = (next) => setNode(next);
+  const node = story[currentNode];
 
   return (
     <div className="app">
-      <div className="header">
-        <div className="brand">counterMK ▸ OBEY&nbsp;OS</div>
-        <div className="badge">v0.1 prototype</div>
-      </div>
-
-      <div className="text">{current.text}</div>
-
+      <h1>counterMK: Obey OS</h1>
+      <Stats stats={stats} />
+      <p>{node.text}</p>
       <div className="choices">
-        {current.choices.map((c, i) => (
-          <button key={i} className="choice" onClick={() => go(c.next)}>
-            {c.text}
-          </button>
+        {node.choices.map((choice, index) => (
+          <button key={index} onClick={() => makeChoice(choice)}>{choice.text}</button>
         ))}
-      </div>
-
-      <div className="hr" />
-
-      <div className="footer">
-        <span className="small">Crow Protocol: “Different name, same code.”</span>
-        <span className="small">Node: {node}</span>
       </div>
     </div>
   );
 }
+
+export default App;
